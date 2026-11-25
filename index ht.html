@@ -1,0 +1,3268 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>מסלול הכושר האישי — מערכת חכמה לאימון, תזונה ומים</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --bg-main: #f3f7fb;
+      --bg-card: #ffffff;
+      --bg-soft: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-light: #64748b;
+      --border-soft: #e2e8f0;
+
+      --primary: #0d9488;
+      --primary-dark: #0f766e;
+      --primary-light: #ccfbf1;
+      --secondary: #4f46e5;
+      --secondary-light: #e0e7ff;
+      --accent-orange: #f97316;
+      --accent-orange-light: #ffedd5;
+      --accent-sky: #0284c7;
+      --accent-sky-light: #e0f2fe;
+      --accent-emerald: #10b981;
+      --accent-emerald-light: #d1fae5;
+      --accent-rose: #e11d48;
+      --accent-rose-light: #ffe4e6;
+
+      --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.05);
+      --shadow-md: 0 10px 28px rgba(15, 23, 42, 0.08);
+      --shadow-lg: 0 20px 45px rgba(15, 23, 42, 0.12);
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Heebo', 'Segoe UI', Tahoma, sans-serif;
+      background-color: var(--bg-main);
+      background-image:
+        radial-gradient(circle at 12% 10%, rgba(13, 148, 136, 0.12) 0%, transparent 36%),
+        radial-gradient(circle at 88% 15%, rgba(79, 70, 229, 0.11) 0%, transparent 38%),
+        radial-gradient(circle at 50% 90%, rgba(249, 115, 22, 0.08) 0%, transparent 42%);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button,
+    input,
+    select {
+      font-family: inherit;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* ========================
+       מסך פתיחה (Onboarding)
+       ======================== */
+    .onboarding-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+
+    .onboarding-card {
+      width: 100%;
+      max-width: 660px;
+      background: var(--bg-card);
+      border-radius: 28px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      overflow: hidden;
+      animation: fadeSlideUp 0.5s ease;
+    }
+
+    .onboarding-hero {
+      background: linear-gradient(135deg, #0d9488 0%, #2563eb 55%, #4f46e5 100%);
+      color: #ffffff;
+      padding: 36px 32px 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .onboarding-hero::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      top: -80px;
+      left: -60px;
+      pointer-events: none;
+    }
+
+    .brand-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(8px);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .onboarding-hero h1 {
+      font-size: clamp(1.7rem, 3.5vw, 2.2rem);
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+
+    .onboarding-hero p {
+      font-size: 1rem;
+      opacity: 0.92;
+      max-width: 520px;
+    }
+
+    .onboarding-form {
+      padding: 30px 32px 34px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .label-hint {
+      font-weight: 400;
+      font-size: 0.82rem;
+      color: var(--text-light);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 13px 15px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--border-soft);
+      background: var(--bg-soft);
+      font-size: 1rem;
+      color: var(--text-main);
+      transition: var(--transition);
+      outline: none;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.12);
+    }
+
+    .goal-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .goal-option-card {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .goal-option-card input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .goal-card-body {
+      height: 100%;
+      padding: 15px 12px;
+      border-radius: var(--radius-md);
+      border: 2px solid var(--border-soft);
+      background: var(--bg-soft);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+
+    .goal-option-card:hover .goal-card-body {
+      border-color: #99f6e4;
+      transform: translateY(-2px);
+    }
+
+    .goal-option-card input:checked + .goal-card-body {
+      border-color: var(--primary);
+      background: linear-gradient(180deg, #f0fdfa 0%, #ffffff 100%);
+      box-shadow: 0 8px 20px rgba(13, 148, 136, 0.15);
+    }
+
+    .goal-emoji {
+      font-size: 1.7rem;
+      line-height: 1;
+    }
+
+    .goal-title {
+      font-size: 0.93rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.3;
+    }
+
+    .goal-desc {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      line-height: 1.35;
+    }
+
+    .form-error {
+      background: var(--accent-rose-light);
+      color: #9f1239;
+      padding: 11px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-right: 4px solid var(--accent-rose);
+    }
+
+    .btn-primary-hero {
+      width: 100%;
+      padding: 15px 24px;
+      border: none;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: #ffffff;
+      font-size: 1.08rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(13, 148, 136, 0.28);
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-primary-hero:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(79, 70, 229, 0.32);
+    }
+
+    .btn-primary-hero:active {
+      transform: translateY(0);
+    }
+
+    /* ========================
+       דשבורד ראשי
+       ======================== */
+    .dashboard-container {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 24px 20px 56px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      animation: fadeSlideUp 0.45s ease;
+    }
+
+    /* סרגל עליון */
+    .top-header {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 22px 26px;
+      box-shadow: var(--shadow-md);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .user-greeting-block {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .greeting-title {
+      font-size: clamp(1.35rem, 2.6vw, 1.8rem);
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .weight-pill {
+      font-size: 0.92rem;
+      font-weight: 700;
+      background: var(--bg-soft);
+      border: 1px solid var(--border-soft);
+      color: var(--text-muted);
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    .badges-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .metric-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .badge-goal {
+      background: var(--secondary-light);
+      color: #3730a3;
+    }
+
+    .badge-calories {
+      background: var(--accent-orange-light);
+      color: #9a3412;
+    }
+
+    .badge-bmi {
+      background: var(--accent-emerald-light);
+      color: #065f46;
+    }
+
+    .btn-reset {
+      padding: 11px 18px;
+      border-radius: var(--radius-sm);
+      border: 2px solid #fecdd3;
+      background: #fff1f2;
+      color: #be123c;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .btn-reset:hover {
+      background: #ffe4e6;
+      border-color: #fda4af;
+      transform: translateY(-1px);
+    }
+
+    /* באנר תזכורת חכמה ומערכת תזכורות */
+    .smart-banner {
+      background: linear-gradient(135deg, #0f766e 0%, #0284c7 55%, #4338ca 100%);
+      color: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 22px 26px;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .smart-banner::before {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      bottom: -95px;
+      left: 12%;
+      pointer-events: none;
+    }
+
+    .banner-top-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 1;
+    }
+
+    .banner-content {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      flex: 1;
+      min-width: 260px;
+    }
+
+    .banner-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .banner-text h2 {
+      font-size: 1.08rem;
+      font-weight: 800;
+      margin-bottom: 3px;
+    }
+
+    .banner-text p {
+      font-size: 0.94rem;
+      opacity: 0.95;
+    }
+
+    .tip-highlight {
+      margin-top: 8px;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.92rem;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .btn-tip {
+      z-index: 1;
+      padding: 11px 18px;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: #ffffff;
+      color: #0f766e;
+      font-size: 0.93rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.16);
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .btn-tip:hover {
+      transform: translateY(-2px);
+      background: #f0fdfa;
+    }
+
+    .reminder-controls-panel {
+      z-index: 1;
+      background: rgba(15, 23, 42, 0.22);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .reminder-panel-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .reminder-panel-title {
+      font-size: 0.98rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .reminder-status-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .reminder-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+    }
+
+    .reminder-status-pill.is-active {
+      background: rgba(16, 185, 129, 0.92);
+      color: #ffffff;
+    }
+
+    .reminder-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      align-items: end;
+    }
+
+    .reminder-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .reminder-field label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .reminder-select {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--text-main);
+      font-size: 0.91rem;
+      font-weight: 700;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .btn-reminder-toggle {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: none;
+      background: #10b981;
+      color: #ffffff;
+      font-size: 0.91rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    .btn-reminder-toggle:hover {
+      filter: brightness(1.06);
+      transform: translateY(-1px);
+    }
+
+    .btn-reminder-toggle.is-on {
+      background: #ef4444;
+    }
+
+    .btn-reminder-test {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      background: rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+      font-size: 0.91rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    .btn-reminder-test:hover {
+      background: rgba(255, 255, 255, 0.28);
+      transform: translateY(-1px);
+    }
+
+    .btn-browser-perm {
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      padding: 4px 11px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-browser-perm:hover {
+      background: rgba(255, 255, 255, 0.28);
+    }
+
+    /* רשת כרטיסים ראשית */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .side-column {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      border: 1px solid rgba(226, 232, 240, 0.85);
+      overflow: hidden;
+    }
+
+    .card-body {
+      padding: 24px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .section-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .icon-workout {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+    }
+
+    .icon-water {
+      background: var(--accent-sky-light);
+      color: var(--accent-sky);
+    }
+
+    .icon-coach {
+      background: var(--secondary-light);
+      color: var(--secondary);
+    }
+
+    .icon-nutrition {
+      background: var(--accent-orange-light);
+      color: var(--accent-orange);
+    }
+
+    .section-title {
+      font-size: 1.22rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .section-subtitle {
+      font-size: 0.86rem;
+      color: var(--text-light);
+    }
+
+    /* ========================
+       כרטיס אימונים
+       ======================== */
+    .workout-cover {
+      width: 100%;
+      height: 205px;
+      position: relative;
+      overflow: hidden;
+      background: #0f172a;
+    }
+
+    .workout-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .workout-cover-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.08) 0%, rgba(15, 23, 42, 0.72) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 20px 24px;
+      color: #ffffff;
+    }
+
+    .workout-cover-tag {
+      align-self: flex-start;
+      background: rgba(16, 185, 129, 0.92);
+      color: #ffffff;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .workout-cover-overlay h3 {
+      font-size: 1.35rem;
+      font-weight: 800;
+    }
+
+    .filters-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .filter-box {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .filter-box label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .filter-select {
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--border-soft);
+      background: var(--bg-soft);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-main);
+      cursor: pointer;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .filter-select:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+    }
+
+    .workout-progress-bar-wrap {
+      margin-bottom: 16px;
+      background: var(--bg-soft);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      border: 1px solid var(--border-soft);
+    }
+
+    .workout-progress-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 7px;
+    }
+
+    .mini-progress-track {
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .mini-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent-emerald) 100%);
+      border-radius: 999px;
+      transition: width 0.35s ease;
+    }
+
+    /* פס טיימר פעיל */
+    .active-timer-panel {
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+      color: #ffffff;
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: 0 8px 20px rgba(49, 46, 129, 0.25);
+    }
+
+    .timer-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .timer-label {
+      font-size: 0.82rem;
+      opacity: 0.85;
+    }
+
+    .timer-exercise-name {
+      font-size: 1rem;
+      font-weight: 800;
+    }
+
+    .timer-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .timer-clock {
+      font-size: 1.5rem;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      background: rgba(255, 255, 255, 0.14);
+      padding: 4px 14px;
+      border-radius: 10px;
+      min-width: 90px;
+      text-align: center;
+    }
+
+    .btn-timer-ctrl {
+      border: none;
+      padding: 7px 12px;
+      border-radius: 9px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-timer-pause {
+      background: #fbbf24;
+      color: #1e293b;
+    }
+
+    .btn-timer-stop {
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+    }
+
+    .exercise-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .exercise-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-soft);
+      background: var(--bg-soft);
+      transition: var(--transition);
+    }
+
+    .exercise-item:hover {
+      border-color: #cbd5e1;
+      background: #ffffff;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .exercise-item.completed {
+      opacity: 0.56;
+      background: #f1f5f9;
+      border-color: #e2e8f0;
+    }
+
+    .exercise-item.completed .exercise-name {
+      text-decoration: line-through;
+      color: var(--text-light);
+    }
+
+    .exercise-item.completed .exercise-meta {
+      text-decoration: line-through;
+    }
+
+    .exercise-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .exercise-checkbox {
+      width: 22px;
+      height: 22px;
+      margin-top: 2px;
+      accent-color: var(--primary);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .exercise-details {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .exercise-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+
+    .exercise-meta {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .btn-timer {
+      padding: 8px 13px;
+      border-radius: 10px;
+      border: 1px solid #c7d2fe;
+      background: #eef2ff;
+      color: #3730a3;
+      font-size: 0.86rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition);
+    }
+
+    .btn-timer:hover {
+      background: var(--secondary);
+      color: #ffffff;
+      border-color: var(--secondary);
+    }
+
+    /* ========================
+       מעקב שתיית מים
+       ======================== */
+    .water-card-accent {
+      background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 35%);
+    }
+
+    .water-stats-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .water-count-big {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--accent-sky);
+      line-height: 1.1;
+    }
+
+    .water-count-sub {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .water-percent-badge {
+      font-size: 0.95rem;
+      font-weight: 800;
+      background: var(--accent-sky-light);
+      color: #0369a1;
+      padding: 5px 12px;
+      border-radius: 999px;
+    }
+
+    .water-progress-track {
+      height: 22px;
+      background: #e0f2fe;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid #bae6fd;
+      margin-bottom: 14px;
+      position: relative;
+    }
+
+    .water-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #38bdf8 0%, #0284c7 60%, #0d9488 100%);
+      border-radius: 999px;
+      transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .water-cups-visual {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .water-cup-dot {
+      font-size: 1.15rem;
+      opacity: 0.25;
+      filter: grayscale(1);
+      transition: var(--transition);
+    }
+
+    .water-cup-dot.filled {
+      opacity: 1;
+      filter: none;
+      transform: scale(1.08);
+    }
+
+    .water-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .btn-water {
+      flex: 1;
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      border: none;
+      font-size: 1.15rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-water-plus {
+      background: linear-gradient(135deg, #0284c7 0%, #0d9488 100%);
+      color: #ffffff;
+      box-shadow: 0 6px 16px rgba(2, 132, 199, 0.25);
+    }
+
+    .btn-water-plus:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-water-minus {
+      flex: 0.45;
+      background: #f1f5f9;
+      color: var(--text-main);
+      border: 1px solid var(--border-soft);
+    }
+
+    .btn-water-minus:hover {
+      background: #e2e8f0;
+    }
+
+    .water-encouragement {
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.92rem;
+      font-weight: 600;
+      line-height: 1.5;
+      background: #f0f9ff;
+      color: #0c4a6e;
+      border-right: 4px solid var(--accent-sky);
+    }
+
+    .water-encouragement.goal-reached {
+      background: var(--accent-emerald-light);
+      color: #065f46;
+      border-right-color: var(--accent-emerald);
+    }
+
+    /* ========================
+       עוזר חכם (מאמן חכם)
+       ======================== */
+    .coach-response-box {
+      background: linear-gradient(135deg, #f5f3ff 0%, #eef2ff 100%);
+      border: 1px solid #c7d2fe;
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      margin-bottom: 16px;
+      min-height: 108px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .coach-badge {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--secondary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .coach-answer-text {
+      font-size: 0.96rem;
+      color: #1e1b4b;
+      line-height: 1.65;
+    }
+
+    .quick-questions-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .quick-questions-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 9px;
+      margin-bottom: 14px;
+    }
+
+    .btn-quick-q {
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid #ddd6fe;
+      background: #faf5ff;
+      color: #4c1d95;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: right;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .btn-quick-q:hover {
+      background: var(--secondary);
+      color: #ffffff;
+      border-color: var(--secondary);
+      transform: translateY(-1px);
+    }
+
+    .coach-custom-form {
+      display: flex;
+      gap: 8px;
+    }
+
+    .coach-custom-input {
+      flex: 1;
+      padding: 10px 13px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-soft);
+      background: var(--bg-soft);
+      font-size: 0.92rem;
+      outline: none;
+    }
+
+    .coach-custom-input:focus {
+      border-color: var(--secondary);
+      background: #ffffff;
+    }
+
+    .btn-coach-send {
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: var(--secondary);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-coach-send:hover {
+      background: #4338ca;
+    }
+
+    /* ========================
+       תפריט תזונה
+       ======================== */
+    .nutrition-header-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .daily-menu-kcal-pill {
+      background: var(--accent-orange-light);
+      color: #9a3412;
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .btn-refresh-meals {
+      padding: 10px 18px;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+      color: #ffffff;
+      font-size: 0.92rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(249, 115, 22, 0.24);
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-refresh-meals:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(234, 88, 12, 0.3);
+    }
+
+    .meals-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .meal-card {
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-soft);
+      background: var(--bg-soft);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: var(--transition);
+    }
+
+    .meal-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      background: #ffffff;
+    }
+
+    .meal-image-wrap {
+      width: 100%;
+      height: 165px;
+      position: relative;
+      overflow: hidden;
+      background: #f1f5f9;
+    }
+
+    .meal-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .meal-slot-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(6px);
+      color: #ffffff;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .meal-content {
+      padding: 16px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .meal-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .meal-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    .meal-footer {
+      margin-top: 6px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border-soft);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .meal-kcal {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #c2410c;
+      background: var(--accent-orange-light);
+      padding: 4px 11px;
+      border-radius: 999px;
+    }
+
+    /* ========================
+       התראות צפות (Toast)
+       ======================== */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 380px;
+      width: calc(100% - 48px);
+      pointer-events: none;
+    }
+
+    .toast-item {
+      pointer-events: auto;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      box-shadow: 0 14px 32px rgba(15, 23, 42, 0.25);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      border-right: 5px solid var(--accent-emerald);
+      animation: fadeSlideUp 0.28s ease;
+    }
+
+    .toast-item.toast-timer {
+      border-right-color: #fbbf24;
+      background: #1e1b4b;
+    }
+
+    .toast-item.toast-info {
+      border-right-color: #38bdf8;
+    }
+
+    .toast-item.toast-reminder {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      border-right: 5px solid #10b981;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-right-width: 5px;
+      padding: 16px 18px;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .toast-reminder-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .toast-reminder-title {
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: #5eead4;
+      margin-bottom: 3px;
+    }
+
+    .toast-reminder-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      justify-content: flex-end;
+    }
+
+    .btn-toast-action {
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-toast-primary {
+      background: #10b981;
+      color: #ffffff;
+    }
+
+    .btn-toast-close {
+      background: rgba(255, 255, 255, 0.14);
+      color: #e2e8f0;
+    }
+
+    .toast-icon {
+      font-size: 1.25rem;
+      line-height: 1.2;
+    }
+
+    .toast-text {
+      font-size: 0.92rem;
+      font-weight: 600;
+      line-height: 1.45;
+      flex: 1;
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ========================
+       רספונסיביות
+       ======================== */
+    @media (max-width: 980px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .meals-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .reminder-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 680px) {
+      .onboarding-hero,
+      .onboarding-form {
+        padding: 24px 20px;
+      }
+
+      .form-grid,
+      .goal-options,
+      .filters-row,
+      .meals-grid,
+      .quick-questions-grid,
+      .reminder-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .top-header {
+        padding: 18px;
+      }
+
+      .card-body {
+        padding: 18px;
+      }
+
+      .exercise-item {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn-timer {
+        align-self: flex-start;
+      }
+
+      .toast-container {
+        left: 16px;
+        bottom: 16px;
+        width: calc(100% - 32px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- מסך פתיחה והזנת פרטים -->
+  <section id="onboarding-screen" class="onboarding-wrapper">
+    <div class="onboarding-card">
+      <div class="onboarding-hero">
+        <div class="brand-pill">✨ מערכת אישית לכושר, מים ותזונה</div>
+        <h1>ברוכים הבאים למסלול הבריאות שלך</h1>
+        <p>הזן את הפרטים האישיים שלך כדי לבנות תוכנית אימונים דינמית, יעדי מים ותפריט תזונה מותאם אישית.</p>
+      </div>
+
+      <form id="onboarding-form" class="onboarding-form" novalidate>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label for="input-name">שם מלא</label>
+            <input
+              type="text"
+              id="input-name"
+              class="form-control"
+              placeholder="לדוגמה: נועה לוי"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="input-age">גיל</label>
+            <input
+              type="number"
+              id="input-age"
+              class="form-control"
+              min="12"
+              max="100"
+              placeholder="לדוגמה: 26"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="input-weight">משקל נוכחי בק"ג</label>
+            <input
+              type="number"
+              id="input-weight"
+              class="form-control"
+              min="30"
+              max="250"
+              step="0.5"
+              placeholder="לדוגמה: 70"
+              required
+            />
+          </div>
+
+          <div class="form-group full-width">
+            <label for="input-height">
+              גובה בס"מ
+              <span class="label-hint">(לא חובה — לחישוב מדויק יותר של מדד מסת הגוף, ברירת מחדל 170 ס"מ)</span>
+            </label>
+            <input
+              type="number"
+              id="input-height"
+              class="form-control"
+              min="120"
+              max="230"
+              placeholder="170"
+            />
+          </div>
+
+          <div class="form-group full-width">
+            <label>מטרה עיקרית</label>
+            <div class="goal-options">
+              <label class="goal-option-card">
+                <input type="radio" name="goal" value="ירידה במשקל וחיטוב" checked />
+                <div class="goal-card-body">
+                  <span class="goal-emoji">🔥</span>
+                  <span class="goal-title">ירידה במשקל וחיטוב</span>
+                  <span class="goal-desc">שריפת שומן ממוקדת וגירעון קלורי מאוזן</span>
+                </div>
+              </label>
+
+              <label class="goal-option-card">
+                <input type="radio" name="goal" value="בניית שריר והעלאת מסה" />
+                <div class="goal-card-body">
+                  <span class="goal-emoji">💪</span>
+                  <span class="goal-title">בניית שריר והעלאת מסה</span>
+                  <span class="goal-desc">עומס פרוגרסיבי, חלבון איכותי ועודף מתון</span>
+                </div>
+              </label>
+
+              <label class="goal-option-card">
+                <input type="radio" name="goal" value="שמירה על כושר ואורח חיים בריא" />
+                <div class="goal-card-body">
+                  <span class="goal-emoji">🌿</span>
+                  <span class="goal-title">שמירה על כושר ואורח חיים בריא</span>
+                  <span class="goal-desc">איזון יומיומי, גמישות, אנרגיה ובריאות כללית</span>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div id="onboarding-error" class="form-error hidden" role="alert"></div>
+
+        <button type="submit" class="btn-primary-hero">
+          <span>התחלה ובניית התוכנית האישית</span>
+          <span>🚀</span>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- מסך דשבורד ראשי -->
+  <main id="dashboard-screen" class="dashboard-container hidden">
+    <!-- סרגל עליון ונתונים אנליטיים -->
+    <header class="top-header">
+      <div class="user-greeting-block">
+        <div class="greeting-title">
+          <span id="greeting-text">שלום!</span>
+          <span id="weight-pill" class="weight-pill"></span>
+        </div>
+        <div class="badges-row">
+          <span id="badge-goal" class="metric-badge badge-goal"></span>
+          <span id="badge-calories" class="metric-badge badge-calories"></span>
+          <span id="badge-bmi" class="metric-badge badge-bmi"></span>
+        </div>
+      </div>
+
+      <button type="button" id="btn-reset" class="btn-reset">
+        <span>🔄</span>
+        <span>איפוס ועדכון פרטים</span>
+      </button>
+    </header>
+
+    <!-- באנר תזכורת חכמה ומערכת תזכורות -->
+    <section class="smart-banner" aria-label="תזכורת חכמה ומערכת תזכורות אינטראקטיבית">
+      <div class="banner-top-row">
+        <div class="banner-content">
+          <div class="banner-icon">⚡</div>
+          <div class="banner-text">
+            <h2>תזכורת חכמה להמשך היום</h2>
+            <p>עצור לרגע, קח שתי לגימות מים וקום למתיחה קצרה של 60 שניות — הגוף והריכוז שלך יודו לך.</p>
+            <div id="energy-tip-box" class="tip-highlight hidden"></div>
+          </div>
+        </div>
+        <button type="button" id="btn-energy-tip" class="btn-tip">
+          <span>💡</span>
+          <span>הצג טיפ אנרגיה אקראי</span>
+        </button>
+      </div>
+
+      <!-- מערכת תזכורות אוטומטיות והתראות דפדפן -->
+      <div class="reminder-controls-panel">
+        <div class="reminder-panel-header">
+          <div class="reminder-panel-title">
+            <span>🔔</span>
+            <span>מערכת תזכורות חכמה והתראות בזמן אמת</span>
+          </div>
+          <div class="reminder-status-group">
+            <span id="reminder-status-pill" class="reminder-status-pill">מצב: כבוי</span>
+            <span id="browser-notif-status" class="reminder-status-pill">התראות דפדפן: ממתין לבדיקה</span>
+            <button type="button" id="btn-browser-perm" class="btn-browser-perm">אשר התראות דפדפן</button>
+          </div>
+        </div>
+
+        <div class="reminder-grid">
+          <div class="reminder-field">
+            <label for="reminder-category">נושא התזכורת</label>
+            <select id="reminder-category" class="reminder-select">
+              <option value="הכול לסירוגין">הכול לסירוגין (מים, מתיחות ואימון)</option>
+              <option value="שתיית מים">שתיית מים</option>
+              <option value="מתיחות קלות">מתיחות קלות</option>
+              <option value="ביצוע אימון">ביצוע אימון</option>
+            </select>
+          </div>
+
+          <div class="reminder-field">
+            <label for="reminder-frequency">תדירות תזכורות</label>
+            <select id="reminder-frequency" class="reminder-select">
+              <option value="15">כל 15 דקות</option>
+              <option value="30" selected>כל 30 דקות</option>
+              <option value="45">כל 45 דקות</option>
+              <option value="60">כל שעה</option>
+              <option value="120">כל שעתיים</option>
+            </select>
+          </div>
+
+          <div class="reminder-field">
+            <button type="button" id="btn-reminder-toggle" class="btn-reminder-toggle">
+              <span>▶️</span>
+              <span>הפעל תזכורות אוטומטיות</span>
+            </button>
+          </div>
+
+          <div class="reminder-field">
+            <button type="button" id="btn-reminder-test" class="btn-reminder-test">
+              <span>🔔</span>
+              <span>בדוק תזכורת עכשיו</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- רשת מרכזית: תוכנית אימונים + מים + מאמן חכם -->
+    <section class="main-grid">
+      <!-- כרטיס תוכנית אימונים דינמית -->
+      <article class="card">
+        <div class="workout-cover">
+          <img id="workout-cover-img" src="" alt="איור אימון כושר מותאם אישית" />
+          <div class="workout-cover-overlay">
+            <span id="workout-cover-badge" class="workout-cover-tag">אימון מותאם אישית</span>
+            <h3 id="workout-cover-title">תוכנית האימון היומית שלך</h3>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="section-header">
+            <div class="section-title-group">
+              <div class="section-icon icon-workout">🏋️</div>
+              <div>
+                <h2 class="section-title">תוכנית אימונים דינמית</h2>
+                <p class="section-subtitle">בחר רמת קושי ומיקום לעדכון מידי של התרגילים</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="filters-row">
+            <div class="filter-box">
+              <label for="filter-difficulty">רמת קושי</label>
+              <select id="filter-difficulty" class="filter-select">
+                <option value="מתחיל">מתחיל</option>
+                <option value="בינוני">בינוני</option>
+                <option value="מתקדם">מתקדם</option>
+              </select>
+            </div>
+
+            <div class="filter-box">
+              <label for="filter-location">מיקום אימון</label>
+              <select id="filter-location" class="filter-select">
+                <option value="בבית">בבית</option>
+                <option value="חדר כושר">חדר כושר</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="workout-progress-bar-wrap">
+            <div class="workout-progress-meta">
+              <span>התקדמות באימון הנוכחי</span>
+              <span id="workout-progress-label">0 מתוך 0 תרגילים</span>
+            </div>
+            <div class="mini-progress-track">
+              <div id="workout-progress-fill" class="mini-progress-fill"></div>
+            </div>
+          </div>
+
+          <!-- פס טיימר פעיל -->
+          <div id="active-timer-panel" class="active-timer-panel hidden">
+            <div class="timer-info">
+              <span class="timer-label">⏱️ טיימר פעיל לתרגיל:</span>
+              <span id="timer-exercise-name" class="timer-exercise-name"></span>
+            </div>
+            <div class="timer-controls">
+              <span id="timer-clock" class="timer-clock">00:45</span>
+              <button type="button" id="btn-timer-pause" class="btn-timer-ctrl btn-timer-pause">השהה</button>
+              <button type="button" id="btn-timer-stop" class="btn-timer-ctrl btn-timer-stop">סיים</button>
+            </div>
+          </div>
+
+          <ul id="exercise-list" class="exercise-list"></ul>
+        </div>
+      </article>
+
+      <!-- עמודה משנית: מעקב מים + מאמן חכם -->
+      <div class="side-column">
+        <!-- מעקב שתיית מים -->
+        <article class="card water-card-accent">
+          <div class="card-body">
+            <div class="section-header">
+              <div class="section-title-group">
+                <div class="section-icon icon-water">💧</div>
+                <div>
+                  <h2 class="section-title">מעקב שתיית מים</h2>
+                  <p class="section-subtitle">מחושב אוטומטית לפי המשקל שלך</p>
+                </div>
+              </div>
+              <span id="water-percent-badge" class="water-percent-badge">0%</span>
+            </div>
+
+            <div class="water-stats-row">
+              <div>
+                <span id="water-current-cups" class="water-count-big">0</span>
+                <span id="water-target-cups" class="water-count-sub">מתוך 8 כוסות</span>
+              </div>
+              <span id="water-liters-info" class="water-count-sub"></span>
+            </div>
+
+            <div class="water-progress-track" aria-label="פס התקדמות שתיית מים">
+              <div id="water-progress-fill" class="water-progress-fill"></div>
+            </div>
+
+            <div id="water-cups-visual" class="water-cups-visual" aria-hidden="true"></div>
+
+            <div class="water-controls">
+              <button type="button" id="btn-water-minus" class="btn-water btn-water-minus" aria-label="הפחת כוס מים">
+                <span>−</span>
+              </button>
+              <button type="button" id="btn-water-plus" class="btn-water btn-water-plus" aria-label="הוסף כוס מים">
+                <span>+</span>
+                <span>הוסף כוס מים</span>
+              </button>
+            </div>
+
+            <div id="water-encouragement" class="water-encouragement"></div>
+          </div>
+        </article>
+
+        <!-- עוזר אינטראקטיבי: מאמן חכם -->
+        <article class="card">
+          <div class="card-body">
+            <div class="section-header">
+              <div class="section-title-group">
+                <div class="section-icon icon-coach">🧠</div>
+                <div>
+                  <h2 class="section-title">מאמן חכם — העוזר האישי שלך</h2>
+                  <p class="section-subtitle">ייעוץ מותאם אישית לשם ולמטרה שלך</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="coach-response-box">
+              <span class="coach-badge">✨ תשובת המאמן החכם</span>
+              <p id="coach-answer" class="coach-answer-text"></p>
+            </div>
+
+            <div class="quick-questions-label">שאלות מהירות בלחיצה אחת:</div>
+            <div class="quick-questions-grid">
+              <button type="button" class="btn-quick-q" data-topic="tired">
+                <span>😴</span>
+                <span>עייפות היום</span>
+              </button>
+              <button type="button" class="btn-quick-q" data-topic="postWorkout">
+                <span>🥗</span>
+                <span>מה לאכול אחרי אימון</span>
+              </button>
+              <button type="button" class="btn-quick-q" data-topic="motivation">
+                <span>🔥</span>
+                <span>משפט מוטיבציה</span>
+              </button>
+              <button type="button" class="btn-quick-q" data-topic="snack">
+                <span>🍎</span>
+                <span>נשנוש בריא מומלץ</span>
+              </button>
+            </div>
+
+            <form id="coach-custom-form" class="coach-custom-form">
+              <input
+                type="text"
+                id="coach-custom-input"
+                class="coach-custom-input"
+                placeholder="שאל את המאמן כל שאלה בעברית..."
+              />
+              <button type="submit" class="btn-coach-send">שלח</button>
+            </form>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- תפריט תזונה יומי -->
+    <section class="card">
+      <div class="card-body">
+        <div class="section-header">
+          <div class="section-title-group">
+            <div class="section-icon icon-nutrition">🍽️</div>
+            <div>
+              <h2 class="section-title">תפריט תזונה מותאם למטרה</h2>
+              <p class="section-subtitle">שלוש ארוחות מאוזנות עם ערך קלורי משוער</p>
+            </div>
+          </div>
+
+          <div class="nutrition-header-actions">
+            <span id="daily-menu-kcal-pill" class="daily-menu-kcal-pill"></span>
+            <button type="button" id="btn-refresh-meals" class="btn-refresh-meals">
+              <span>🔄</span>
+              <span>רענן רעיונות תזונה נוספים</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="meals-grid" class="meals-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- מרכז התראות צפות -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      const STORAGE_KEY = 'hebrew_fitness_graduation_app_v1';
+
+      // ==========================================
+      // יצירת איורים צבעוניים מובנים לתצוגה אמינה
+      // ==========================================
+      function svgToDataUri(svgMarkup) {
+        return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgMarkup);
+      }
+
+      function createWorkoutIllustration(location) {
+        const isHome = location === 'בבית';
+        const bgStart = isHome ? '#0f766e' : '#1e1b4b';
+        const bgEnd = isHome ? '#0284c7' : '#4f46e5';
+        const accent = isHome ? '#5eead4' : '#a5b4fc';
+        const warm = '#fb923c';
+
+        const svg = `
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320">
+            <defs>
+              <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="${bgStart}" />
+                <stop offset="100%" stop-color="${bgEnd}" />
+              </linearGradient>
+              <linearGradient id="glow" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="${accent}" stop-opacity="0.35" />
+                <stop offset="100%" stop-color="${warm}" stop-opacity="0.25" />
+              </linearGradient>
+            </defs>
+            <rect width="800" height="320" fill="url(#bg)" />
+            <circle cx="140" cy="70" r="110" fill="url(#glow)" />
+            <circle cx="670" cy="240" r="140" fill="url(#glow)" />
+            <path d="M0 260 Q 200 205 420 250 T 800 220 L 800 320 L 0 320 Z" fill="rgba(255,255,255,0.08)" />
+            <!-- משקולת מסוגננת -->
+            <g transform="translate(490, 82) rotate(-14)">
+              <rect x="25" y="42" width="170" height="16" rx="8" fill="#e2e8f0" />
+              <rect x="0" y="18" width="22" height="64" rx="8" fill="${warm}" />
+              <rect x="24" y="10" width="20" height="80" rx="8" fill="#f8fafc" />
+              <rect x="176" y="10" width="20" height="80" rx="8" fill="#f8fafc" />
+              <rect x="198" y="18" width="22" height="64" rx="8" fill="${warm}" />
+            </g>
+            <!-- קו דופק אנרגטי -->
+            <polyline points="60,165 160,165 190,115 225,210 260,95 295,185 325,165 430,165"
+              fill="none" stroke="${accent}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+            <!-- מזרן / סמל כושר -->
+            <rect x="85" y="218" width="240" height="22" rx="11" fill="rgba(255,255,255,0.22)" />
+          </svg>
+        `;
+        return svgToDataUri(svg);
+      }
+
+      function createMealIllustration(theme, iconSymbol) {
+        const palettes = {
+          sunrise: ['#fff7ed', '#fed7aa', '#fb923c', '#f59e0b'],
+          berry: ['#fdf2f8', '#fbcfe8', '#ec4899', '#8b5cf6'],
+          fresh: ['#ecfdf5', '#a7f3d0', '#10b981', '#0d9488'],
+          protein: ['#eff6ff', '#bfdbfe', '#3b82f6', '#4f46e5'],
+          mediterranean: ['#fefce8', '#fde68a', '#eab308', '#ea580c'],
+          calm: ['#f0f9ff', '#bae6fd', '#0284c7', '#14b8a6']
+        };
+        const p = palettes[theme] || palettes.fresh;
+
+        const svg = `
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 260">
+            <defs>
+              <linearGradient id="mealBg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="${p[0]}" />
+                <stop offset="100%" stop-color="${p[1]}" />
+              </linearGradient>
+            </defs>
+            <rect width="480" height="260" fill="url(#mealBg)" />
+            <circle cx="70" cy="48" r="55" fill="${p[2]}" opacity="0.14" />
+            <circle cx="420" cy="215" r="70" fill="${p[3]}" opacity="0.16" />
+            <!-- צלחת מרכזית -->
+            <ellipse cx="240" cy="142" rx="108" ry="86" fill="rgba(15,23,42,0.08)" />
+            <circle cx="240" cy="134" r="88" fill="#ffffff" />
+            <circle cx="240" cy="134" r="72" fill="${p[0]}" stroke="${p[1]}" stroke-width="4" />
+            <!-- עיטורי ירק ותבלינים -->
+            <circle cx="195" cy="112" r="14" fill="${p[2]}" opacity="0.85" />
+            <circle cx="282" cy="155" r="16" fill="${p[3]}" opacity="0.85" />
+            <circle cx="275" cy="105" r="10" fill="#22c55e" opacity="0.75" />
+            <circle cx="198" cy="160" r="11" fill="#facc15" opacity="0.8" />
+            <text x="240" y="150" text-anchor="middle" font-size="56">${iconSymbol}</text>
+          </svg>
+        `;
+        return svgToDataUri(svg);
+      }
+
+      // ==========================================
+      // מאגרי נתונים מלאים בעברית תקנית
+      // ==========================================
+      const GOAL_CONFIG = {
+        'ירידה במשקל וחיטוב': {
+          calorieMultiplier: 24,
+          shortLabel: 'חיטוב ושריפת שומן',
+          coachTip: 'התמקד באימונים בקצב זורם, שמור על גירעון קלורי מתון והרבה חלבון וירקות בכל ארוחה.'
+        },
+        'בניית שריר והעלאת מסה': {
+          calorieMultiplier: 35,
+          shortLabel: 'היפרטרופיה ובניית כוח',
+          coachTip: 'הקפד על טכניקה מדויקת, מנוחה של דקה עד שתיים בין סטים וצריכת חלבון מספקת לאורך היום.'
+        },
+        'שמירה על כושר ואורח חיים בריא': {
+          calorieMultiplier: 30,
+          shortLabel: 'איזון, גמישות וחיוניות',
+          coachTip: 'העקביות היא המפתח! שלב תנועה מתונה, מתיחות יומיות ותזונה מגוונת ומאוזנת.'
+        }
+      };
+
+      const ENERGY_TIPS = [
+        'קום ל-2 דקות של הליכה קלה וסיבובי כתפיים — זה משפר מיד את זרימת הדם למוח.',
+        'שתיית כוס מים קרירים לפני ארוחה משפרת ערנות ומונעת תחושת כבדות מיותרת.',
+        'חשיפה לאור יום טבעי למשך 10 דקות מאזנת את השעון הביולוגי ומעלה את רמת האנרגיה.',
+        'קח 5 נשימות עמוקות דרך האף ונשוף לאט דרך הפה כדי להפחית עומס ולהחזיר מיקוד.',
+        'נשנוש של חופן שקדים טבעיים עם פרי טרי מספק אנרגיה יציבה בלי נפילת סוכר.',
+        'מתח את הגב והירכיים ל-45 שניות ליד הכיסא כדי לשחרר נוקשות מישיבה ממושכת.'
+      ];
+
+      // תוכניות אימונים לפי: מטרה -> מיקום -> רמת קושי
+      const WORKOUT_PLANS = {
+        'ירידה במשקל וחיטוב': {
+          'בבית': {
+            'מתחיל': [
+              { id: 'w1', name: 'קפיצות כוכב מתונות', details: '3 סטים • 30 שניות עבודה, 20 שניות מנוחה', seconds: 30 },
+              { id: 'w2', name: 'כריעות כנגד משקל גוף', details: '3 סטים • 12 חזרות בקצב אחיד', seconds: 45 },
+              { id: 'w3', name: 'שכיבות סמיכה על הברכיים', details: '3 סטים • 10 חזרות', seconds: 40 },
+              { id: 'w4', name: 'החזקת גוף ישרה על האמות', details: '3 סטים • 25 שניות', seconds: 25 }
+            ],
+            'בינוני': [
+              { id: 'w5', name: 'ברכיים גבוהות במקום', details: '4 סטים • 40 שניות קצב גבוה', seconds: 40 },
+              { id: 'w6', name: 'מכרעים אחוריים לסירוגין', details: '3 סטים • 12 חזרות לכל רגל', seconds: 50 },
+              { id: 'w7', name: 'טיפוס הרים בקצב מהיר', details: '4 סטים • 35 שניות', seconds: 35 },
+              { id: 'w8', name: 'כפיפות בטן אופניים', details: '3 סטים • 20 חזרות', seconds: 45 }
+            ],
+            'מתקדם': [
+              { id: 'w9', name: 'קפיצות משולבות משכיבת סמיכה לעמידה', details: '4 סטים • 12 חזרות', seconds: 50 },
+              { id: 'w10', name: 'כריעות עם קפיצה מתפרצת', details: '4 סטים • 15 חזרות', seconds: 45 },
+              { id: 'w11', name: 'שכיבות סמיכה עם נגיעה בכתף', details: '4 סטים • 16 חזרות', seconds: 45 },
+              { id: 'w12', name: 'החזקת גוף ישרה עם החלפת מרפקים', details: '3 סטים • 45 שניות', seconds: 45 }
+            ]
+          },
+          'חדר כושר': {
+            'מתחיל': [
+              { id: 'g1', name: 'הליכה מהירה בשיפוע על הליכון', details: '15 דקות חימום • שיפוע 5%', seconds: 60 },
+              { id: 'g2', name: 'לחיצת רגליים במכונה', details: '3 סטים • 12 חזרות', seconds: 45 },
+              { id: 'g3', name: 'משיכת פולי עליון לאחיזה רחבה', details: '3 סטים • 12 חזרות', seconds: 45 },
+              { id: 'g4', name: 'הרמת ברכיים בתלייה או תמיכה', details: '3 סטים • 12 חזרות', seconds: 40 }
+            ],
+            'בינוני': [
+              { id: 'g5', name: 'חתירה במכשיר חתירה בעצימות בינונית', details: '4 סטים • 60 שניות קצב חזק', seconds: 60 },
+              { id: 'g6', name: 'כריעות עם משקולת יד צמודה לחזה', details: '4 סטים • 12 חזרות', seconds: 50 },
+              { id: 'g7', name: 'לחיצת כתפיים בעמידה עם משקולות', details: '3 סטים • 12 חזרות', seconds: 45 },
+              { id: 'g8', name: 'קפיצות חבל או ריצה קצרה בהפוגות', details: '4 סטים • 45 שניות', seconds: 45 }
+            ],
+            'מתקדם': [
+              { id: 'g9', name: 'ספרינטים בהפוגות על אופני כושר', details: '6 סבבים • 30 שניות שיא, 30 מנוחה', seconds: 30 },
+              { id: 'g10', name: 'הנפת משקולת קטלבל בשתי ידיים', details: '4 סטים • 18 חזרות', seconds: 45 },
+              { id: 'g11', name: 'מכרעים בהליכה עם משקולות יד', details: '4 סטים • 20 צעדים', seconds: 55 },
+              { id: 'g12', name: 'גלגל בטן או החזקת גוף ישרה עם משקל', details: '4 סטים • 45 שניות', seconds: 45 }
+            ]
+          }
+        },
+        'בניית שריר והעלאת מסה': {
+          'בבית': {
+            'מתחיל': [
+              { id: 'm1', name: 'שכיבות סמיכה בשיפוע מוגבה', details: '3 סטים • 10 חזרות מבוקרות', seconds: 45 },
+              { id: 'm2', name: 'כריעות עמוקות בירידה איטית', details: '3 סטים • 12 חזרות (3 שניות ירידה)', seconds: 50 },
+              { id: 'm3', name: 'הרמות אגן בשכיבה על הגב', details: '3 סטים • 15 חזרות', seconds: 45 },
+              { id: 'm4', name: 'שכיבות סמיכה צרות לזרוע אחורית', details: '3 סטים • 8 חזרות', seconds: 40 }
+            ],
+            'בינוני': [
+              { id: 'm5', name: 'שכיבות סמיכה מלאות', details: '4 סטים • 12–15 חזרות', seconds: 50 },
+              { id: 'm6', name: 'מכרעים בולגריים על כיסא', details: '4 סטים • 10 חזרות לכל רגל', seconds: 55 },
+              { id: 'm7', name: 'שכיבות סמיכה בתנוחת משולש לכתפיים', details: '3 סטים • 10 חזרות', seconds: 45 },
+              { id: 'm8', name: 'כיווץ שרירי גב עליון בשכיבה על הבטן', details: '4 סטים • 14 חזרות', seconds: 45 }
+            ],
+            'מתקדם': [
+              { id: 'm9', name: 'שכיבות סמיכה עם רגליים מוגבהות', details: '4 סטים • 15 חזרות', seconds: 55 },
+              { id: 'm10', name: 'כריעות על רגל אחת עם תמיכה קלה', details: '4 סטים • 8 חזרות לכל רגל', seconds: 60 },
+              { id: 'm11', name: 'מקבילים בין שני משטחים יציבים', details: '4 סטים • 12 חזרות', seconds: 50 },
+              { id: 'm12', name: 'החזקת גוף ישרה ארוכה עם קירוב ברך', details: '4 סטים • 50 שניות', seconds: 50 }
+            ]
+          },
+          'חדר כושר': {
+            'מתחיל': [
+              { id: 'mg1', name: 'לחיצת חזה במכונה ייעודית', details: '3 סטים • 10 חזרות', seconds: 50 },
+              { id: 'mg2', name: 'חתירה בישיבה בכבל לגב', details: '3 סטים • 10 חזרות', seconds: 50 },
+              { id: 'mg3', name: 'לחיצת רגליים בזווית', details: '3 סטים • 12 חזרות', seconds: 55 },
+              { id: 'mg4', name: 'כפיפות מרפקים עם משקולות יד', details: '3 סטים • 12 חזרות', seconds: 45 }
+            ],
+            'בינוני': [
+              { id: 'mg5', name: 'לחיצת חזה בשכיבה עם משקולות יד', details: '4 סטים • 10 חזרות', seconds: 55 },
+              { id: 'mg6', name: 'כריעות עם מוט חופשי', details: '4 סטים • 8–10 חזרות', seconds: 60 },
+              { id: 'mg7', name: 'משיכת פולי עליון באחיזה צרה', details: '4 סטים • 10 חזרות', seconds: 50 },
+              { id: 'mg8', name: 'הרחקת משקולות לצדדים לכתפיים', details: '4 סטים • 14 חזרות', seconds: 45 }
+            ],
+            'מתקדם': [
+              { id: 'mg9', name: 'דדליפט רומני עם מוט', details: '4 סטים • 8 חזרות כבדות', seconds: 60 },
+              { id: 'mg10', name: 'מתח רחב עם תוספת משקל או מנוף איטי', details: '4 סטים • 8 חזרות', seconds: 55 },
+              { id: 'mg11', name: 'לחיצת חזה בשיפוע חיובי עם מוט', details: '4 סטים • 8 חזרות', seconds: 55 },
+              { id: 'mg12', name: 'פשיטת מרפקים בכבל עליון ליד אחורית', details: '4 סטים • 12 חזרות', seconds: 45 }
+            ]
+          }
+        },
+        'שמירה על כושר ואורח חיים בריא': {
+          'בבית': {
+            'מתחיל': [
+              { id: 'h1', name: 'צעידה נמרצת במקום עם הנפת ידיים', details: '3 דקות • חימום עדין ונשימה סדירה', seconds: 60 },
+              { id: 'h2', name: 'מתיחות חתול-גמל לשחרור עמוד השדרה', details: '3 סטים • 10 חזרות איטיות', seconds: 45 },
+              { id: 'h3', name: 'כריעות חצי מבוקרות לכיסא', details: '3 סטים • 12 חזרות', seconds: 45 },
+              { id: 'h4', name: 'הרמת יד ורגל נגדית בעמידת שש', details: '3 סטים • 10 לכל צד', seconds: 45 }
+            ],
+            'בינוני': [
+              { id: 'h5', name: 'רצף זרימת כושר ומתיחות דינמיות', details: '3 סטים • 50 שניות', seconds: 50 },
+              { id: 'h6', name: 'מכרעים קדמיים ביציבות מלאה', details: '3 סטים • 10 חזרות לכל רגל', seconds: 45 },
+              { id: 'h7', name: 'שכיבות סמיכה בקצב מאוזן', details: '3 סטים • 12 חזרות', seconds: 45 },
+              { id: 'h8', name: 'גשר צדי לחיזוק שרירי הליבה', details: '3 סטים • 30 שניות לכל צד', seconds: 30 }
+            ],
+            'מתקדם': [
+              { id: 'h9', name: 'אימון מחזורי משולב כוח וסיבולת', details: '4 סטים • 50 שניות עבודה', seconds: 50 },
+              { id: 'h10', name: 'כריעה ומעבר לסיבוב גו פתוח', details: '4 סטים • 12 חזרות', seconds: 50 },
+              { id: 'h11', name: 'שכיבות סמיכה עם מתיחת גוף אחורה', details: '4 סטים • 12 חזרות', seconds: 45 },
+              { id: 'h12', name: 'החזקת גוף ישרה מאתגרת עם הרמת רגל', details: '3 סטים • 45 שניות', seconds: 45 }
+            ]
+          },
+          'חדר כושר': {
+            'מתחיל': [
+              { id: 'hg1', name: 'דיווש נעים באופני כושר', details: '12 דקות • קצב דיבור נוח', seconds: 60 },
+              { id: 'hg2', name: 'פשיטת רגליים בישיבה במשקל קל', details: '3 סטים • 12 חזרות', seconds: 45 },
+              { id: 'hg3', name: 'חתירה מתונה במכונה', details: '3 סטים • 12 חזרות', seconds: 45 },
+              { id: 'hg4', name: 'מתיחות סיום על מזרן', details: '5 דקות שחרור כללי', seconds: 60 }
+            ],
+            'בינוני': [
+              { id: 'hg5', name: 'אליפטיקל בקצב משתנה', details: '15 דקות • שילוב התנגדות קלה', seconds: 60 },
+              { id: 'hg6', name: 'לחיצת כתפיים בישיבה עם משקולות', details: '3 סטים • 12 חזרות', seconds: 45 },
+              { id: 'hg7', name: 'כריעות עם כדור כוח או משקולת קלה', details: '3 סטים • 14 חזרות', seconds: 50 },
+              { id: 'hg8', name: 'כפיפות בטן על כדור יציבות', details: '3 סטים • 15 חזרות', seconds: 45 }
+            ],
+            'מתקדם': [
+              { id: 'hg9', name: 'ריצה בקצב קבוע על הליכון', details: '20 דקות • נשימה עמוקה ואחידה', seconds: 60 },
+              { id: 'hg10', name: 'חתירה בעמידה עם כבל יד אחת', details: '4 סטים • 12 חזרות לכל יד', seconds: 45 },
+              { id: 'hg11', name: 'מכרעים אחוריים עם משקולות יד', details: '4 סטים • 12 חזרות לכל רגל', seconds: 50 },
+              { id: 'hg12', name: 'איזון וחיזוק ליבה על חצי כדור', details: '3 סטים • 45 שניות', seconds: 45 }
+            ]
+          }
+        }
+      };
+
+      // תפריטי תזונה: 3 סטים שונים לכל מטרה
+      const NUTRITION_SETS = {
+        'ירידה במשקל וחיטוב': [
+          [
+            { slot: 'ארוחת בוקר', title: 'יוגורט חלבון, פירות יער וזרעי צ׳יה', desc: 'גביע יוגורט עשיר בחלבון, חצי כוס אוכמניות ותותים וכפית זרעי צ׳יה.', kcal: 290, theme: 'berry', icon: '🫐' },
+            { slot: 'ארוחת צהריים', title: 'חזה עוף צרוב על סלט ירוק עשיר וקינואה', desc: '150 גרם חזה עוף מתובל בעשבי תיבול, חסה, מלפפון, עגבניות שרי וחצי כוס קינואה.', kcal: 460, theme: 'fresh', icon: '🥗' },
+            { slot: 'ארוחת ערב', title: 'שקשוקה ירוקה עם גבינה רזה וירקות חתוכים', desc: 'שתי ביצים ברוטב תרד ועגבניות, שתי פרוסות לחם מחמצת מלא וסלט טרי.', kcal: 380, theme: 'mediterranean', icon: '🍳' }
+          ],
+          [
+            { slot: 'ארוחת בוקר', title: 'חביתת ירק עם גבינת קוטג׳ ופרוסת כוסמין', desc: 'שתי ביצים עם פטרוזיליה ובצל ירוק, שלוש כפות קוטג׳ וירקות חתוכים.', kcal: 320, theme: 'sunrise', icon: '🥚' },
+            { slot: 'ארוחת צהריים', title: 'פילה דג לבן אפוי עם ברוקולי ובטטה', desc: 'פילה אמנון או דניס בתנור עם לימון ושום, פרחי ברוקולי מאודים וחצי בטטה.', kcal: 430, theme: 'calm', icon: '🐟' },
+            { slot: 'ארוחת ערב', title: 'קערת טופו צלוי, אדממה וכרוב סגול', desc: 'קוביות טופו ברוטב סויה דל נתרן, פולי סויה ירוקים, גזר מגורד ושומשום.', kcal: 370, theme: 'fresh', icon: '🥢' }
+          ],
+          [
+            { slot: 'ארוחת בוקר', title: 'שייק ירוק מרענן עם תפוח, תרד ואבקת חלבון', desc: 'עלי תרד טריים, חצי תפוח ירוק, מים קרים ומנת חלבון להשבעה מהירה.', kcal: 270, theme: 'fresh', icon: '🥤' },
+            { slot: 'ארוחת צהריים', title: 'קציצות הודו אפויות עם כוסמת וירקות קלויים', desc: 'ארבע קציצות הודו רזות, חצי כוס כוסמת מבושלת וקישואים בתנור.', kcal: 450, theme: 'mediterranean', icon: '🥘' },
+            { slot: 'ארוחת ערב', title: 'סלט טונה ים-תיכוני עם ביצה קשה ואבוקדו', desc: 'טונה במים, ביצה קשה, רבע אבוקדו, זיתים, בצל סגול ועלי בייבי.', kcal: 390, theme: 'calm', icon: '🥬' }
+          ]
+        ],
+        'בניית שריר והעלאת מסה': [
+          [
+            { slot: 'ארוחת בוקר', title: 'דייסת שיבולת שועל עם בננה, חמאת בוטנים וחלבון', desc: 'כוס שיבולת שועל מבושלת בחלב, בננה פרוסה, כף חמאת בוטנים טבעית ושקדים.', kcal: 560, theme: 'sunrise', icon: '🥣' },
+            { slot: 'ארוחת צהריים', title: 'סטייק פרגית עם אורז בסמטי ועדשים', desc: '200 גרם פרגית צלויה, כוס וחצי אורז בסמטי עם עדשים וסלט ירקות עם שמן זית.', kcal: 740, theme: 'protein', icon: '🍗' },
+            { slot: 'ארוחת ערב', title: 'פילה סלמון בתנור עם תפוחי אדמה וברוקולי', desc: '180 גרם סלמון עשיר בחומצות שומן חיוניות לצד תפוחי אדמה צלויים.', kcal: 650, theme: 'calm', icon: '🐟' }
+          ],
+          [
+            { slot: 'ארוחת בוקר', title: 'טוסט לחם מחמצת עם שלוש ביצים ואבוקדו שלם', desc: 'שתי פרוסות לחם מלא קלויות, מקושקשת משלוש ביצים, אבוקדו וטחינה גולמית.', kcal: 590, theme: 'mediterranean', icon: '🥑' },
+            { slot: 'ארוחת צהריים', title: 'בשר בקר רזה מוקפץ עם פסטה מחיטה מלאה', desc: 'רצועות סינטה מוקפצות עם פלפלים ובצל על פסטה עשירה בפחמימות מורכבות.', kcal: 760, theme: 'protein', icon: '🍝' },
+            { slot: 'ארוחת ערב', title: 'גביע ריקוטה וחלבון עם גרנולה ביתית ודבש', desc: '250 גרם גבינת ריקוטה, חצי כוס גרנולה מלאה, אגוזי מלך וכפית דבש.', kcal: 540, theme: 'berry', icon: '🍯' }
+          ],
+          [
+            { slot: 'ארוחת בוקר', title: 'פנקייק שיבולת שועל, קוטג׳ ובננה', desc: 'פנקייקים מזינים מבננה, שיבולת שועל ושתי ביצים עם ממרח אגוזים טבעי.', kcal: 580, theme: 'sunrise', icon: '🥞' },
+            { slot: 'ארוחת צהריים', title: 'חזה עוף ממולא בטחינה עם בטטה שלמה ואפונה', desc: '200 גרם חזה עוף, בטטה גדולה אפויה, כוס אפונה ירוקה ושמן זית.', kcal: 710, theme: 'fresh', icon: '🍠' },
+            { slot: 'ארוחת ערב', title: 'טורטייה מלאה כפולה עם חזה הודו, אבוקדו ושעועית', desc: 'שתי טורטיות ממולאות ברצועות הודו, שעועית שחורה, סלסה וגבינה מגורדת.', kcal: 630, theme: 'mediterranean', icon: '🌯' }
+          ]
+        ],
+        'שמירה על כושר ואורח חיים בריא': [
+          [
+            { slot: 'ארוחת בוקר', title: 'קערת יוגורט טבעי עם גרנולה, תפוח וקינמון', desc: 'יוגורט ביו, שלוש כפות גרנולה פריכה, תפוח חתוך לקוביות וקמצוץ קינמון.', kcal: 390, theme: 'sunrise', icon: '🍏' },
+            { slot: 'ארוחת צהריים', title: 'חזה עוף עם בורגול ועשבי תיבול טריים', desc: 'מנה מאוזנת של חזה עוף, סלט טבולה מבורגול, פטרוזיליה, נענע ולימון.', kcal: 520, theme: 'fresh', icon: '🥗' },
+            { slot: 'ארוחת ערב', title: 'פריטטה ירקות אפויה עם גבינה בולגרית ולחם שיפון', desc: 'מאפה ביצים קליל עם זוקיני, עגבניות ופלפלים לצד פרוסת לחם שיפון.', kcal: 440, theme: 'mediterranean', icon: '🫑' }
+          ],
+          [
+            { slot: 'ארוחת בוקר', title: 'כריך לחם כוסמין עם טחינה, אבוקדו וירקות', desc: 'שתי פרוסות לחם כוסמין, מחית אבוקדו, זילוף טחינה, מלפפון ונבטים.', kcal: 410, theme: 'fresh', icon: '🥪' },
+            { slot: 'ארוחת צהריים', title: 'קדרת עדשים כתומות וירקות שורש עם אורז מלא', desc: 'תבשיל חם ומשביע של עדשים, גזר, דלעת וכורכום לצד כוס אורז מלא.', kcal: 540, theme: 'mediterranean', icon: '🍲' },
+            { slot: 'ארוחת ערב', title: 'סלמון מאודה קלות עם סלט קינואה ורימונים', desc: '140 גרם סלמון עסיסי, חצי כוס קינואה, גרגרי רימון, רוקט ורוטב לימון.', kcal: 480, theme: 'berry', icon: '🍋' }
+          ],
+          [
+            { slot: 'ארוחת בוקר', title: 'צנצנת שיבולת שועל מושרית עם מנגו וקוקוס', desc: 'שיבולת שועל שהושרתה במשקה שקדים עם קוביות מנגו טרי ושבבי קוקוס.', kcal: 380, theme: 'sunrise', icon: '🥭' },
+            { slot: 'ארוחת צהריים', title: 'שיפודי פרגית עם ירקות צלויים ופיתה מחיטה מלאה', desc: 'שני שיפודי פרגית עסיסיים, קישוא וגמבה על הגריל וכף חומוס ביתי.', kcal: 550, theme: 'protein', icon: '🥙' },
+            { slot: 'ארוחת ערב', title: 'מרק ירקות עשיר עם טוסט גבינה צהובה דלה וזיתים', desc: 'קערת מרק כתום או ירקות עונתיים מחמם עם כריך קלוי וקל.', kcal: 430, theme: 'calm', icon: '🥣' }
+          ]
+        ]
+      };
+
+      // ==========================================
+      // מצב האפליקציה
+      // ==========================================
+      let appState = {
+        profile: null, // { name, age, weight, height, goal }
+        difficulty: 'מתחיל',
+        location: 'בבית',
+        completedExercises: {}, // { [exerciseId]: true }
+        waterCups: 0,
+        mealSetIndex: 0,
+        reminders: {
+          enabled: false,
+          intervalMinutes: 30,
+          category: 'הכול לסירוגין',
+          nextTriggerAt: null,
+          rotationIndex: 0
+        }
+      };
+
+      let lastEnergyTipIndex = -1;
+      let reminderCountdownInterval = null;
+      let activeTimer = {
+        intervalId: null,
+        exerciseName: '',
+        remainingSeconds: 0,
+        isPaused: false
+      };
+
+      // ==========================================
+      // הפניות לרכיבי המסך
+      // ==========================================
+      const onboardingScreen = document.getElementById('onboarding-screen');
+      const dashboardScreen = document.getElementById('dashboard-screen');
+      const onboardingForm = document.getElementById('onboarding-form');
+      const onboardingError = document.getElementById('onboarding-error');
+
+      const inputName = document.getElementById('input-name');
+      const inputAge = document.getElementById('input-age');
+      const inputWeight = document.getElementById('input-weight');
+      const inputHeight = document.getElementById('input-height');
+
+      const greetingText = document.getElementById('greeting-text');
+      const weightPill = document.getElementById('weight-pill');
+      const badgeGoal = document.getElementById('badge-goal');
+      const badgeCalories = document.getElementById('badge-calories');
+      const badgeBmi = document.getElementById('badge-bmi');
+      const btnReset = document.getElementById('btn-reset');
+
+      const energyTipBox = document.getElementById('energy-tip-box');
+      const btnEnergyTip = document.getElementById('btn-energy-tip');
+
+      const reminderStatusPill = document.getElementById('reminder-status-pill');
+      const browserNotifStatus = document.getElementById('browser-notif-status');
+      const btnBrowserPerm = document.getElementById('btn-browser-perm');
+      const reminderCategory = document.getElementById('reminder-category');
+      const reminderFrequency = document.getElementById('reminder-frequency');
+      const btnReminderToggle = document.getElementById('btn-reminder-toggle');
+      const btnReminderTest = document.getElementById('btn-reminder-test');
+
+      const workoutCoverImg = document.getElementById('workout-cover-img');
+      const workoutCoverBadge = document.getElementById('workout-cover-badge');
+      const workoutCoverTitle = document.getElementById('workout-cover-title');
+      const filterDifficulty = document.getElementById('filter-difficulty');
+      const filterLocation = document.getElementById('filter-location');
+      const workoutProgressLabel = document.getElementById('workout-progress-label');
+      const workoutProgressFill = document.getElementById('workout-progress-fill');
+      const exerciseList = document.getElementById('exercise-list');
+
+      const activeTimerPanel = document.getElementById('active-timer-panel');
+      const timerExerciseNameEl = document.getElementById('timer-exercise-name');
+      const timerClockEl = document.getElementById('timer-clock');
+      const btnTimerPause = document.getElementById('btn-timer-pause');
+      const btnTimerStop = document.getElementById('btn-timer-stop');
+
+      const waterPercentBadge = document.getElementById('water-percent-badge');
+      const waterCurrentCups = document.getElementById('water-current-cups');
+      const waterTargetCups = document.getElementById('water-target-cups');
+      const waterLitersInfo = document.getElementById('water-liters-info');
+      const waterProgressFill = document.getElementById('water-progress-fill');
+      const waterCupsVisual = document.getElementById('water-cups-visual');
+      const waterEncouragement = document.getElementById('water-encouragement');
+      const btnWaterPlus = document.getElementById('btn-water-plus');
+      const btnWaterMinus = document.getElementById('btn-water-minus');
+
+      const coachAnswer = document.getElementById('coach-answer');
+      const coachCustomForm = document.getElementById('coach-custom-form');
+      const coachCustomInput = document.getElementById('coach-custom-input');
+
+      const dailyMenuKcalPill = document.getElementById('daily-menu-kcal-pill');
+      const btnRefreshMeals = document.getElementById('btn-refresh-meals');
+      const mealsGrid = document.getElementById('meals-grid');
+
+      const toastContainer = document.getElementById('toast-container');
+
+      // ==========================================
+      // פונקציות חישוב ושמירה
+      // ==========================================
+      function saveState() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+        } catch (err) {
+          // התעלמות משגיאת אחסון מקומי בדפדפן חסום
+        }
+      }
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return false;
+          const parsed = JSON.parse(raw);
+          if (parsed && parsed.profile && parsed.profile.name) {
+            appState = Object.assign(
+              {
+                profile: null,
+                difficulty: 'מתחיל',
+                location: 'בבית',
+                completedExercises: {},
+                waterCups: 0,
+                mealSetIndex: 0
+              },
+              parsed
+            );
+            appState.reminders = Object.assign(
+              {
+                enabled: false,
+                intervalMinutes: 30,
+                category: 'הכול לסירוגין',
+                nextTriggerAt: null,
+                rotationIndex: 0
+              },
+              parsed.reminders || {}
+            );
+            return true;
+          }
+        } catch (err) {
+          return false;
+        }
+        return false;
+      }
+
+      function calculateDailyCalories(weight, goal) {
+        const config = GOAL_CONFIG[goal] || GOAL_CONFIG['שמירה על כושר ואורח חיים בריא'];
+        return Math.round(weight * config.calorieMultiplier);
+      }
+
+      function calculateBmi(weight, heightCm) {
+        const heightMeters = (heightCm || 170) / 100;
+        const bmi = weight / (heightMeters * heightMeters);
+        const rounded = Math.round(bmi * 10) / 10;
+
+        let category = 'משקל תקין';
+        if (rounded < 18.5) category = 'תת-משקל';
+        else if (rounded >= 25 && rounded < 30) category = 'עודף משקל';
+        else if (rounded >= 30) category = 'מסת גוף גבוהה';
+
+        return { value: rounded, category };
+      }
+
+      function calculateWaterTargetCups(weight) {
+        // כ-35 מ"ל לכל ק"ג, מחולק לכוסות של 250 מ"ל (מינימום 6 כוסות)
+        return Math.max(6, Math.round((weight * 35) / 250));
+      }
+
+      // ==========================================
+      // התראות צפות וצליל סיום טיימר
+      // ==========================================
+      function showToast(message, type = 'success', durationMs = 3800) {
+        const toast = document.createElement('div');
+        toast.className = 'toast-item' + (type === 'timer' ? ' toast-timer' : type === 'info' ? ' toast-info' : '');
+
+        const iconMap = {
+          success: '✅',
+          timer: '⏱️',
+          info: '💧'
+        };
+
+        const iconSpan = document.createElement('span');
+        iconSpan.className = 'toast-icon';
+        iconSpan.textContent = iconMap[type] || '✨';
+
+        const textSpan = document.createElement('span');
+        textSpan.className = 'toast-text';
+        textSpan.textContent = message;
+
+        toast.appendChild(iconSpan);
+        toast.appendChild(textSpan);
+        toastContainer.appendChild(toast);
+
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(10px)';
+          toast.style.transition = 'all 0.25s ease';
+          setTimeout(() => {
+            if (toast.parentNode) toast.parentNode.removeChild(toast);
+          }, 260);
+        }, durationMs);
+      }
+
+      function playCompletionChime() {
+        try {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (!AudioCtx) return;
+          const ctx = new AudioCtx();
+          const notes = [523.25, 659.25, 783.99];
+          notes.forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.14);
+            gain.gain.setValueAtTime(0.12, ctx.currentTime + idx * 0.14);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.14 + 0.35);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(ctx.currentTime + idx * 0.14);
+            osc.stop(ctx.currentTime + idx * 0.14 + 0.36);
+          });
+        } catch (err) {
+          // דפדפן ללא תמיכה בשמע אוטומטי
+        }
+      }
+
+      function addOneWaterCup() {
+        if (!appState.profile) return;
+        const target = calculateWaterTargetCups(appState.profile.weight);
+        if (appState.waterCups < target + 6) {
+          appState.waterCups += 1;
+          saveState();
+          renderWaterSection();
+          if (appState.waterCups === target) {
+            showToast('מדהים! השלמת 100% מיעד שתיית המים היומי שלך!', 'info', 4000);
+          }
+        }
+      }
+
+      // ==========================================
+      // מערכת תזכורות חכמה והתראות דפדפן
+      // ==========================================
+      function updateBrowserNotificationUI() {
+        if (typeof Notification === 'undefined') {
+          browserNotifStatus.textContent = 'התראות דפדפן: אינן נתמכות בדפדפן זה';
+          btnBrowserPerm.classList.add('hidden');
+          return;
+        }
+
+        const perm = Notification.permission;
+        if (perm === 'granted') {
+          browserNotifStatus.textContent = 'התראות דפדפן: מאושרות ✓';
+          browserNotifStatus.classList.add('is-active');
+          btnBrowserPerm.classList.add('hidden');
+        } else if (perm === 'denied') {
+          browserNotifStatus.textContent = 'התראות דפדפן: חסומות בהגדרות הדפדפן';
+          browserNotifStatus.classList.remove('is-active');
+          btnBrowserPerm.classList.add('hidden');
+        } else {
+          browserNotifStatus.textContent = 'התראות דפדפן: ממתינות לאישור';
+          browserNotifStatus.classList.remove('is-active');
+          btnBrowserPerm.classList.remove('hidden');
+        }
+      }
+
+      async function requestBrowserNotificationPermission(showFeedback = true) {
+        if (typeof Notification === 'undefined') {
+          if (showFeedback) {
+            showToast('הדפדפן שלך אינו תומך בהתראות חיצוניות, אך ההתראות הקופצות באתר יפעלו כרגיל.', 'info', 3800);
+          }
+          updateBrowserNotificationUI();
+          return 'unsupported';
+        }
+
+        if (Notification.permission === 'granted') {
+          updateBrowserNotificationUI();
+          return 'granted';
+        }
+
+        if (Notification.permission === 'denied') {
+          updateBrowserNotificationUI();
+          if (showFeedback) {
+            showToast('התראות הדפדפן חסומות. ניתן לאפשר אותן בהגדרות האתר בדפדפן — בינתיים ההתראות הקופצות באתר פעילות.', 'info', 4200);
+          }
+          return 'denied';
+        }
+
+        try {
+          const result = await Notification.requestPermission();
+          updateBrowserNotificationUI();
+          if (showFeedback) {
+            if (result === 'granted') {
+              showToast('התראות הדפדפן אושרו בהצלחה! תקבל מעתה גם התראות דפדפן אמיתיות.', 'success', 3500);
+            } else {
+              showToast('לא ניתן אישור להתראות דפדפן — ההתראות הקופצות בתוך האתר ימשיכו לפעול.', 'info', 3800);
+            }
+          }
+          return result;
+        } catch (err) {
+          updateBrowserNotificationUI();
+          return 'default';
+        }
+      }
+
+      function buildReminderPayload() {
+        const { name, weight, goal } = appState.profile;
+        const targetCups = calculateWaterTargetCups(weight);
+        const remainingCups = Math.max(0, targetCups - appState.waterCups);
+
+        const rotationOrder = ['שתיית מים', 'מתיחות קלות', 'ביצוע אימון'];
+        let chosenType = appState.reminders.category;
+
+        if (chosenType === 'הכול לסירוגין') {
+          chosenType = rotationOrder[appState.reminders.rotationIndex % rotationOrder.length];
+          appState.reminders.rotationIndex = (appState.reminders.rotationIndex + 1) % rotationOrder.length;
+          saveState();
+        }
+
+        if (chosenType === 'שתיית מים') {
+          const bodyText =
+            remainingCups > 0
+              ? `${name}, הגיע הזמן לכוס מים רעננה! נשארו לך עוד ${remainingCups} כוסות להשלמת היעד היומי שלך.`
+              : `${name}, כל הכבוד שכבר השלמת את היעד היומי — עוד לגימה קטנה תשמור על רעננות לאורך היום.`;
+          return {
+            type: 'שתיית מים',
+            icon: '💧',
+            title: 'תזכורת לשתיית מים',
+            body: bodyText
+          };
+        }
+
+        if (chosenType === 'מתיחות קלות') {
+          return {
+            type: 'מתיחות קלות',
+            icon: '🤸',
+            title: 'זמן למתיחות קלות ותנועה',
+            body: `${name}, קום ל-60 שניות מהכיסא, מתח את הגב והכתפיים, קח נשימה עמוקה ושחרר עומס מהשרירים.`
+          };
+        }
+
+        return {
+          type: 'ביצוע אימון',
+          icon: '🏋️',
+          title: 'תזכורת לביצוע אימון',
+          body: `${name}, תוכנית האימונים שלך ליעד "${goal}" (${appState.location}, רמת ${appState.difficulty}) מחכה לך! גם סט אחד עכשיו מקדם אותך.`
+        };
+      }
+
+      function showReminderPopup(payload, isManualTest = false) {
+        const popup = document.createElement('div');
+        popup.className = 'toast-item toast-reminder';
+
+        const topRow = document.createElement('div');
+        topRow.className = 'toast-reminder-top';
+
+        const iconSpan = document.createElement('span');
+        iconSpan.className = 'toast-icon';
+        iconSpan.textContent = payload.icon;
+
+        const textWrap = document.createElement('div');
+        textWrap.style.flex = '1';
+
+        const titleEl = document.createElement('div');
+        titleEl.className = 'toast-reminder-title';
+        titleEl.textContent = isManualTest ? `${payload.title} (בדיקה בזמן אמת)` : payload.title;
+
+        const bodyEl = document.createElement('div');
+        bodyEl.className = 'toast-text';
+        bodyEl.textContent = payload.body;
+
+        textWrap.appendChild(titleEl);
+        textWrap.appendChild(bodyEl);
+        topRow.appendChild(iconSpan);
+        topRow.appendChild(textWrap);
+
+        const actionsRow = document.createElement('div');
+        actionsRow.className = 'toast-reminder-actions';
+
+        function removePopup() {
+          popup.style.opacity = '0';
+          popup.style.transform = 'translateY(10px)';
+          popup.style.transition = 'all 0.22s ease';
+          setTimeout(() => {
+            if (popup.parentNode) popup.parentNode.removeChild(popup);
+          }, 230);
+        }
+
+        if (payload.type === 'שתיית מים') {
+          const drinkBtn = document.createElement('button');
+          drinkBtn.type = 'button';
+          drinkBtn.className = 'btn-toast-action btn-toast-primary';
+          drinkBtn.textContent = 'שתיתי כוס מים (+1)';
+          drinkBtn.addEventListener('click', () => {
+            addOneWaterCup();
+            removePopup();
+          });
+          actionsRow.appendChild(drinkBtn);
+        } else {
+          const doneBtn = document.createElement('button');
+          doneBtn.type = 'button';
+          doneBtn.className = 'btn-toast-action btn-toast-primary';
+          doneBtn.textContent = 'בוצע ✓';
+          doneBtn.addEventListener('click', removePopup);
+          actionsRow.appendChild(doneBtn);
+        }
+
+        const closeBtn = document.createElement('button');
+        closeBtn.type = 'button';
+        closeBtn.className = 'btn-toast-action btn-toast-close';
+        closeBtn.textContent = 'סגור';
+        closeBtn.addEventListener('click', removePopup);
+        actionsRow.appendChild(closeBtn);
+
+        popup.appendChild(topRow);
+        popup.appendChild(actionsRow);
+        toastContainer.appendChild(popup);
+
+        setTimeout(removePopup, 9000);
+      }
+
+      function sendBrowserNotification(payload) {
+        if (typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
+        try {
+          const notif = new Notification(`${payload.icon} ${payload.title}`, {
+            body: payload.body,
+            dir: 'rtl',
+            lang: 'he'
+          });
+          notif.onclick = () => {
+            window.focus();
+            notif.close();
+          };
+        } catch (err) {
+          // התעלמות במקרה של חסימת התראות בסביבת דפדפן מקומית
+        }
+      }
+
+      function triggerSmartReminder(isManualTest = false) {
+        if (!appState.profile) return;
+        const payload = buildReminderPayload();
+        playCompletionChime();
+        showReminderPopup(payload, isManualTest);
+        sendBrowserNotification(payload);
+      }
+
+      function formatMinutesSeconds(ms) {
+        const totalSec = Math.max(0, Math.ceil(ms / 1000));
+        const hours = Math.floor(totalSec / 3600);
+        const mins = Math.floor((totalSec % 3600) / 60);
+        const secs = totalSec % 60;
+        if (hours > 0) {
+          return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+        return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      }
+
+      function updateReminderStatusText() {
+        if (!appState.reminders.enabled) {
+          reminderStatusPill.textContent = 'מצב: כבוי';
+          reminderStatusPill.classList.remove('is-active');
+          btnReminderToggle.classList.remove('is-on');
+          btnReminderToggle.innerHTML = '<span>▶️</span><span>הפעל תזכורות אוטומטיות</span>';
+          return;
+        }
+
+        const now = Date.now();
+        if (!appState.reminders.nextTriggerAt || appState.reminders.nextTriggerAt <= now) {
+          appState.reminders.nextTriggerAt = now + appState.reminders.intervalMinutes * 60 * 1000;
+          saveState();
+        }
+        const remainingMs = appState.reminders.nextTriggerAt - now;
+        reminderStatusPill.textContent = `פעיל • הבאה בעוד ${formatMinutesSeconds(remainingMs)}`;
+        reminderStatusPill.classList.add('is-active');
+        btnReminderToggle.classList.add('is-on');
+        btnReminderToggle.innerHTML = '<span>⏸️</span><span>כבה תזכורות אוטומטיות</span>';
+      }
+
+      function stopReminderScheduler() {
+        if (reminderCountdownInterval) {
+          clearInterval(reminderCountdownInterval);
+          reminderCountdownInterval = null;
+        }
+      }
+
+      function syncReminderScheduler() {
+        stopReminderScheduler();
+        updateReminderStatusText();
+        if (!appState.reminders.enabled) return;
+
+        reminderCountdownInterval = setInterval(() => {
+          if (!appState.reminders.enabled || !appState.profile) {
+            stopReminderScheduler();
+            return;
+          }
+          const now = Date.now();
+          if (now >= appState.reminders.nextTriggerAt) {
+            appState.reminders.nextTriggerAt = now + appState.reminders.intervalMinutes * 60 * 1000;
+            saveState();
+            triggerSmartReminder(false);
+          }
+          updateReminderStatusText();
+        }, 1000);
+      }
+
+      function renderRemindersSection() {
+        reminderCategory.value = appState.reminders.category || 'הכול לסירוגין';
+        reminderFrequency.value = String(appState.reminders.intervalMinutes || 30);
+        updateBrowserNotificationUI();
+        syncReminderScheduler();
+      }
+
+      // ==========================================
+      // רינדור חלקי הדשבורד
+      // ==========================================
+      function renderHeader() {
+        const { name, weight, height, goal } = appState.profile;
+        const dailyKcal = calculateDailyCalories(weight, goal);
+        const bmiInfo = calculateBmi(weight, height);
+
+        greetingText.textContent = `שלום, ${name}!`;
+        weightPill.textContent = `משקל נוכחי: ${weight} ק"ג`;
+        badgeGoal.textContent = `🎯 מטרה: ${goal}`;
+        badgeCalories.textContent = `🔥 יעד קלורי יומי: ${dailyKcal.toLocaleString('he-IL')} קק"ל`;
+        badgeBmi.textContent = `📊 מדד מסת גוף: ${bmiInfo.value} (${bmiInfo.category})`;
+      }
+
+      function renderWorkoutSection() {
+        const { goal } = appState.profile;
+        filterDifficulty.value = appState.difficulty;
+        filterLocation.value = appState.location;
+
+        workoutCoverImg.src = createWorkoutIllustration(appState.location);
+        workoutCoverBadge.textContent = `${appState.location} • רמת ${appState.difficulty}`;
+        workoutCoverTitle.textContent = `תוכנית אימונים ליעד: ${goal}`;
+
+        const exercises =
+          (WORKOUT_PLANS[goal] &&
+            WORKOUT_PLANS[goal][appState.location] &&
+            WORKOUT_PLANS[goal][appState.location][appState.difficulty]) ||
+          [];
+
+        exerciseList.innerHTML = '';
+        let completedCount = 0;
+
+        exercises.forEach((ex) => {
+          const isDone = Boolean(appState.completedExercises[ex.id]);
+          if (isDone) completedCount++;
+
+          const li = document.createElement('li');
+          li.className = 'exercise-item' + (isDone ? ' completed' : '');
+
+          const leftDiv = document.createElement('div');
+          leftDiv.className = 'exercise-left';
+
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.className = 'exercise-checkbox';
+          checkbox.id = `ex-check-${ex.id}`;
+          checkbox.checked = isDone;
+          checkbox.addEventListener('change', () => {
+            appState.completedExercises[ex.id] = checkbox.checked;
+            saveState();
+            renderWorkoutSection();
+            if (checkbox.checked) {
+              showToast(`כל הכבוד! השלמת את התרגיל "${ex.name}"`, 'success', 2600);
+            }
+          });
+
+          const detailsDiv = document.createElement('div');
+          detailsDiv.className = 'exercise-details';
+
+          const label = document.createElement('label');
+          label.className = 'exercise-name';
+          label.setAttribute('for', checkbox.id);
+          label.textContent = ex.name;
+
+          const meta = document.createElement('span');
+          meta.className = 'exercise-meta';
+          meta.textContent = ex.details;
+
+          detailsDiv.appendChild(label);
+          detailsDiv.appendChild(meta);
+          leftDiv.appendChild(checkbox);
+          leftDiv.appendChild(detailsDiv);
+
+          const timerBtn = document.createElement('button');
+          timerBtn.type = 'button';
+          timerBtn.className = 'btn-timer';
+          timerBtn.textContent = '⏱️ טיימר';
+          timerBtn.addEventListener('click', () => startExerciseTimer(ex));
+
+          li.appendChild(leftDiv);
+          li.appendChild(timerBtn);
+          exerciseList.appendChild(li);
+        });
+
+        const total = exercises.length;
+        const pct = total > 0 ? Math.round((completedCount / total) * 100) : 0;
+        workoutProgressLabel.textContent = `${completedCount} מתוך ${total} תרגילים הושלמו (${pct}%)`;
+        workoutProgressFill.style.width = `${pct}%`;
+      }
+
+      function formatClock(totalSeconds) {
+        const mins = Math.floor(totalSeconds / 60);
+        const secs = totalSeconds % 60;
+        return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      }
+
+      function stopExerciseTimer(silent = false) {
+        if (activeTimer.intervalId) {
+          clearInterval(activeTimer.intervalId);
+          activeTimer.intervalId = null;
+        }
+        activeTimerPanel.classList.add('hidden');
+        if (!silent && activeTimer.exerciseName) {
+          showToast(`הטיימר עבור "${activeTimer.exerciseName}" נעצר.`, 'info', 2400);
+        }
+        activeTimer.exerciseName = '';
+        activeTimer.remainingSeconds = 0;
+        activeTimer.isPaused = false;
+      }
+
+      function startExerciseTimer(exercise) {
+        stopExerciseTimer(true);
+        const duration = exercise.seconds || 45;
+        activeTimer.exerciseName = exercise.name;
+        activeTimer.remainingSeconds = duration;
+        activeTimer.isPaused = false;
+
+        timerExerciseNameEl.textContent = exercise.name;
+        timerClockEl.textContent = formatClock(duration);
+        btnTimerPause.textContent = 'השהה';
+        activeTimerPanel.classList.remove('hidden');
+
+        showToast(`הופעל טיימר של ${duration} שניות לתרגיל: ${exercise.name}`, 'timer', 3200);
+
+        activeTimer.intervalId = setInterval(() => {
+          if (activeTimer.isPaused) return;
+          activeTimer.remainingSeconds -= 1;
+
+          if (activeTimer.remainingSeconds <= 0) {
+            const finishedName = activeTimer.exerciseName;
+            stopExerciseTimer(true);
+            playCompletionChime();
+            showToast(`הזמן הסתיים! סיימת את הסט של "${finishedName}" בהצלחה!`, 'timer', 5200);
+            return;
+          }
+
+          timerClockEl.textContent = formatClock(activeTimer.remainingSeconds);
+        }, 1000);
+      }
+
+      function renderWaterSection() {
+        const { weight, name } = appState.profile;
+        const target = calculateWaterTargetCups(weight);
+        const current = appState.waterCups;
+        const rawPercent = Math.round((current / target) * 100);
+        const clampedPercent = Math.min(100, Math.max(0, rawPercent));
+        const litersTarget = ((target * 250) / 1000).toFixed(1);
+
+        waterCurrentCups.textContent = current;
+        waterTargetCups.textContent = `מתוך ${target} כוסות מומלצות`;
+        waterLitersInfo.textContent = `יעד יומי: ${litersTarget} ליטר`;
+        waterPercentBadge.textContent = `${clampedPercent}%`;
+        waterProgressFill.style.width = `${clampedPercent}%`;
+
+        // איור כוסות מים ויזואלי
+        waterCupsVisual.innerHTML = '';
+        for (let i = 0; i < target; i++) {
+          const cup = document.createElement('span');
+          cup.className = 'water-cup-dot' + (i < current ? ' filled' : '');
+          cup.textContent = '🥛';
+          waterCupsVisual.appendChild(cup);
+        }
+
+        // הודעת עידוד דינמית לפי אחוז ההתקדמות
+        waterEncouragement.classList.remove('goal-reached');
+        if (current === 0) {
+          waterEncouragement.textContent = `${name}, עדיין לא תועדו כוסות מים היום. כוס ראשונה תתניע את חילוף החומרים והערנות שלך!`;
+        } else if (clampedPercent < 50) {
+          waterEncouragement.textContent = `התחלה נהדרת! שתית ${current} כוסות (${clampedPercent}%). המשך לשתות באופן קבוע לאורך היום.`;
+        } else if (clampedPercent < 100) {
+          waterEncouragement.textContent = `מצוין, עברת את חצי הדרך (${clampedPercent}%)! נשארו רק עוד ${target - current} כוסות להשלמת היעד היומי.`;
+        } else {
+          waterEncouragement.classList.add('goal-reached');
+          waterEncouragement.textContent = `אלוף! הגעת ל-100% מיעד שתיית המים היומי שלך (${target} כוסות). הגוף שלך רווי, רענן ומוכן לפעולה!`;
+        }
+      }
+
+      function renderMealsSection() {
+        const { goal, weight } = appState.profile;
+        const sets = NUTRITION_SETS[goal] || NUTRITION_SETS['שמירה על כושר ואורח חיים בריא'];
+        const safeIndex = appState.mealSetIndex % sets.length;
+        const currentMeals = sets[safeIndex];
+
+        const totalMenuKcal = currentMeals.reduce((sum, m) => sum + m.kcal, 0);
+        const dailyTarget = calculateDailyCalories(weight, goal);
+        dailyMenuKcalPill.textContent = `סה"כ בתפריט: ${totalMenuKcal.toLocaleString('he-IL')} מתוך יעד של ${dailyTarget.toLocaleString('he-IL')} קק"ל`;
+
+        mealsGrid.innerHTML = '';
+        currentMeals.forEach((meal) => {
+          const card = document.createElement('article');
+          card.className = 'meal-card';
+
+          const imgWrap = document.createElement('div');
+          imgWrap.className = 'meal-image-wrap';
+
+          const img = document.createElement('img');
+          img.src = createMealIllustration(meal.theme, meal.icon);
+          img.alt = `${meal.slot}: ${meal.title}`;
+
+          const slotBadge = document.createElement('span');
+          slotBadge.className = 'meal-slot-badge';
+          slotBadge.textContent = meal.slot;
+
+          imgWrap.appendChild(img);
+          imgWrap.appendChild(slotBadge);
+
+          const content = document.createElement('div');
+          content.className = 'meal-content';
+
+          const title = document.createElement('h3');
+          title.className = 'meal-title';
+          title.textContent = meal.title;
+
+          const desc = document.createElement('p');
+          desc.className = 'meal-desc';
+          desc.textContent = meal.desc;
+
+          const footer = document.createElement('div');
+          footer.className = 'meal-footer';
+
+          const kcal = document.createElement('span');
+          kcal.className = 'meal-kcal';
+          kcal.textContent = `${meal.kcal} קק"ל משוער`;
+
+          const note = document.createElement('span');
+          note.className = 'section-subtitle';
+          note.textContent = 'מאוזן וטרי';
+
+          footer.appendChild(kcal);
+          footer.appendChild(note);
+
+          content.appendChild(title);
+          content.appendChild(desc);
+          content.appendChild(footer);
+
+          card.appendChild(imgWrap);
+          card.appendChild(content);
+          mealsGrid.appendChild(card);
+        });
+      }
+
+      function renderCoachWelcome() {
+        const { name, goal, weight } = appState.profile;
+        const goalExtra = GOAL_CONFIG[goal] ? GOAL_CONFIG[goal].coachTip : '';
+        coachAnswer.textContent = `שלום ${name}! בניתי עבורך מעטפת אישית ליעד "${goal}" במשקל ${weight} ק"ג. ${goalExtra} לחץ על אחת השאלות המהירות למטה או כתוב לי שאלה משלך.`;
+      }
+
+      function generateCoachResponse(topicOrText) {
+        const { name, goal, weight } = appState.profile;
+        const waterTarget = calculateWaterTargetCups(weight);
+
+        const responses = {
+          tired: {
+            'ירידה במשקל וחיטוב': `${name}, עייפות בזמן תהליך חיטוב היא טבעית. שתה כוס מים מלאה עכשיו, בחר אימון קצר וממוקד ברמה קלה יותר להיום, וודא שאתה ישן לפחות 7 שעות בלילה.`,
+            'בניית שריר והעלאת מסה': `${name}, השרירים נבנים בזמן מנוחה! אם אתה מרגיש עייפות היום, הקפד על ארוחה עשירה בפחמימה איכותית וחלבון, השלם ${waterTarget} כוסות מים ובצע מתיחות שחרור.`,
+            'שמירה על כושר ואורח חיים בריא': `${name}, הגוף מאותת שהוא זקוק להפוגה קצרה. צא להליכה קלה של 10 דקות באוויר הפתוח, שתה מים והקשב לקצב האישי שלך היום.`
+          },
+          postWorkout: {
+            'ירידה במשקל וחיטוב': `${name}, אחרי אימון מומלצת ארוחה קלה ועשירה בחלבון לשיקום השריר בלי עומס קלורי — למשל גביע יוגורט חלבון עם פירות יער, או חביתה עם קוטג׳ וסלט ירוק.`,
+            'בניית שריר והעלאת מסה': `${name}, כדי למקסם בניית שריר, שלב תוך שעה מהאימון מנה של חלבון איכותי ופחמימה זמינה — כמו חזה עוף עם אורז, או שייק חלבון עם בננה ושיבולת שועל.`,
+            'שמירה על כושר ואורח חיים בריא': `${name}, ארוחה מאוזנת אחרי אימון היא המפתח להתאוששות: כריך לחם מחמצת עם ביצה ואבוקדו, או דג אפוי עם ירקות צלויים וקינואה.`
+          },
+          motivation: {
+            'ירידה במשקל וחיטוב': `${name}, כל בחירה קטנה היום מקרבת אותך לגרסה הקלילה, החזקה והאנרגטית שלך. גם אימון של 15 דקות עדיף על ויתור מוחלט — תתמיד ותראה תוצאות!`,
+            'בניית שריר והעלאת מסה': `${name}, כוח אמיתי נבנה חזרה אחרי חזרה, יום אחרי יום. גם כשקשה — דווקא שם מתרחשת הצמיחה שלך. לך תן עבודה מצוינת!`,
+            'שמירה על כושר ואורח חיים בריא': `${name}, בריאות היא מתנה שאתה מעניק לעצמך בכל יום מחדש. אתה כבר בתנועה הנכונה — המשך ליהנות מהדרך ומהתחושה הטובה!`
+          },
+          snack: {
+            'ירידה במשקל וחיטוב': `${name}, נשנוש מעולה לחיטוב: תפוח ירוק פריך עם 10 שקדים טבעיים, או מקלות גזר ומלפפון עם שתי כפות גבינה לבנה רזה.`,
+            'בניית שריר והעלאת מסה': `${name}, נשנוש אידיאלי להעלאת מסה: בננה עם כף גדושה של חמאת בוטנים טבעית, או גביע קוטג׳ עם חופן אגוזי מלך ודבש.`,
+            'שמירה על כושר ואורח חיים בריא': `${name}, לנשנוש מאוזן וטעים באמצע היום: חופן פירות יער עם יוגורט טבעי, או שני תמרים ממולאים באגוז פקאן.`
+          }
+        };
+
+        if (responses[topicOrText]) {
+          return responses[topicOrText][goal] || responses[topicOrText]['שמירה על כושר ואורח חיים בריא'];
+        }
+
+        // מענה חכם לשאלה חופשית בעברית
+        const q = String(topicOrText || '').trim();
+        if (q.includes('מים') || q.includes('שתייה')) {
+          return `${name}, יעד המים המומלץ עבורך במשקל ${weight} ק"ג הוא ${waterTarget} כוסות ביום. כרגע שתית ${appState.waterCups} כוסות — שמור על בקבוק מים זמין לידך!`;
+        }
+        if (q.includes('קלוריות') || q.includes('אוכל') || q.includes('תפריט') || q.includes('רעב')) {
+          const kcal = calculateDailyCalories(weight, goal);
+          return `${name}, היעד הקלורי המשוער למטרה "${goal}" הוא כ-${kcal.toLocaleString('he-IL')} קק"ל ליום. תוכל ללחוץ על כפתור הרענון בתפריט התזונה למטה כדי לקבל רעיונות חדשים לארוחות.`;
+        }
+        if (q.includes('אימון') || q.includes('תרגיל') || q.includes('קושי')) {
+          return `${name}, תוכנית האימונים שלך מוגדרת כרגע ל${appState.location} ברמת ${appState.difficulty}. תמיד אפשר לשנות את המסננים, להפעיל טיימר לכל תרגיל ולסמן וי בסיום!`;
+        }
+        return `${name}, שאלה מצוינת! במסגרת היעד שלך (${goal}), הדבר החשוב ביותר הוא לשלב עקביות באימונים, להגיע ל-${waterTarget} כוסות מים ביום ולשמור על ארוחות סדירות ומאוזנות.`;
+      }
+
+      function renderDashboard() {
+        onboardingScreen.classList.add('hidden');
+        dashboardScreen.classList.remove('hidden');
+
+        renderHeader();
+        renderRemindersSection();
+        renderWorkoutSection();
+        renderWaterSection();
+        renderMealsSection();
+        renderCoachWelcome();
+      }
+
+      // ==========================================
+      // מאזיני אירועים
+      // ==========================================
+      onboardingForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        onboardingError.classList.add('hidden');
+
+        const name = inputName.value.trim();
+        const age = Number(inputAge.value);
+        const weight = Number(inputWeight.value);
+        const heightInput = inputHeight.value.trim();
+        const height = heightInput ? Number(heightInput) : 170;
+        const selectedGoalInput = onboardingForm.querySelector('input[name="goal"]:checked');
+        const goal = selectedGoalInput ? selectedGoalInput.value : 'שמירה על כושר ואורח חיים בריא';
+
+        if (!name || name.length < 2) {
+          onboardingError.textContent = 'אנא הזן שם מלא תקין (לפחות שני תווים).';
+          onboardingError.classList.remove('hidden');
+          inputName.focus();
+          return;
+        }
+        if (!age || age < 12 || age > 100) {
+          onboardingError.textContent = 'אנא הזן גיל תקין בין 12 ל-100.';
+          onboardingError.classList.remove('hidden');
+          inputAge.focus();
+          return;
+        }
+        if (!weight || weight < 30 || weight > 250) {
+          onboardingError.textContent = 'אנא הזן משקל תקין בק"ג בין 30 ל-250.';
+          onboardingError.classList.remove('hidden');
+          inputWeight.focus();
+          return;
+        }
+        if (heightInput && (height < 120 || height > 230)) {
+          onboardingError.textContent = 'אנא הזן גובה תקין בס"מ בין 120 ל-230, או השאר ריק לברירת המחדל.';
+          onboardingError.classList.remove('hidden');
+          inputHeight.focus();
+          return;
+        }
+
+        appState = {
+          profile: { name, age, weight, height, goal },
+          difficulty: 'מתחיל',
+          location: 'בבית',
+          completedExercises: {},
+          waterCups: 0,
+          mealSetIndex: 0,
+          reminders: {
+            enabled: false,
+            intervalMinutes: 30,
+            category: 'הכול לסירוגין',
+            nextTriggerAt: null,
+            rotationIndex: 0
+          }
+        };
+
+        saveState();
+        renderDashboard();
+        showToast(`ברוך הבא ${name}! התוכנית האישית שלך מוכנה.`, 'success', 3500);
+      });
+
+      btnReset.addEventListener('click', () => {
+        stopExerciseTimer(true);
+        stopReminderScheduler();
+        try {
+          localStorage.removeItem(STORAGE_KEY);
+        } catch (err) {
+          // התעלמות
+        }
+        appState = {
+          profile: null,
+          difficulty: 'מתחיל',
+          location: 'בבית',
+          completedExercises: {},
+          waterCups: 0,
+          mealSetIndex: 0,
+          reminders: {
+            enabled: false,
+            intervalMinutes: 30,
+            category: 'הכול לסירוגין',
+            nextTriggerAt: null,
+            rotationIndex: 0
+          }
+        };
+        onboardingForm.reset();
+        onboardingError.classList.add('hidden');
+        energyTipBox.classList.add('hidden');
+        dashboardScreen.classList.add('hidden');
+        onboardingScreen.classList.remove('hidden');
+        showToast('הנתונים אופסו בהצלחה. ניתן לעדכן פרטים חדשים.', 'info', 3000);
+      });
+
+      btnEnergyTip.addEventListener('click', () => {
+        let nextIndex = Math.floor(Math.random() * ENERGY_TIPS.length);
+        if (nextIndex === lastEnergyTipIndex) {
+          nextIndex = (nextIndex + 1) % ENERGY_TIPS.length;
+        }
+        lastEnergyTipIndex = nextIndex;
+        energyTipBox.textContent = `💡 טיפ אנרגיה: ${ENERGY_TIPS[nextIndex]}`;
+        energyTipBox.classList.remove('hidden');
+      });
+
+      reminderCategory.addEventListener('change', () => {
+        appState.reminders.category = reminderCategory.value;
+        saveState();
+        showToast(`נושא התזכורות עודכן ל: ${appState.reminders.category}`, 'info', 2500);
+      });
+
+      reminderFrequency.addEventListener('change', () => {
+        appState.reminders.intervalMinutes = Number(reminderFrequency.value) || 30;
+        if (appState.reminders.enabled) {
+          appState.reminders.nextTriggerAt = Date.now() + appState.reminders.intervalMinutes * 60 * 1000;
+        }
+        saveState();
+        syncReminderScheduler();
+        showToast(`תדירות התזכורות עודכנה לכל ${appState.reminders.intervalMinutes} דקות.`, 'info', 2500);
+      });
+
+      btnBrowserPerm.addEventListener('click', () => {
+        requestBrowserNotificationPermission(true);
+      });
+
+      btnReminderToggle.addEventListener('click', async () => {
+        appState.reminders.enabled = !appState.reminders.enabled;
+        if (appState.reminders.enabled) {
+          appState.reminders.nextTriggerAt = Date.now() + appState.reminders.intervalMinutes * 60 * 1000;
+          saveState();
+          syncReminderScheduler();
+          if (typeof Notification !== 'undefined' && Notification.permission === 'default') {
+            await requestBrowserNotificationPermission(false);
+          }
+          showToast(`התזכורות האוטומטיות הופעלו (כל ${appState.reminders.intervalMinutes} דקות).`, 'success', 3200);
+        } else {
+          appState.reminders.nextTriggerAt = null;
+          saveState();
+          syncReminderScheduler();
+          showToast('התזכורות האוטומטיות כובו.', 'info', 2600);
+        }
+      });
+
+      btnReminderTest.addEventListener('click', async () => {
+        if (typeof Notification !== 'undefined' && Notification.permission === 'default') {
+          await requestBrowserNotificationPermission(false);
+        }
+        triggerSmartReminder(true);
+      });
+
+      filterDifficulty.addEventListener('change', () => {
+        appState.difficulty = filterDifficulty.value;
+        stopExerciseTimer(true);
+        saveState();
+        renderWorkoutSection();
+      });
+
+      filterLocation.addEventListener('change', () => {
+        appState.location = filterLocation.value;
+        stopExerciseTimer(true);
+        saveState();
+        renderWorkoutSection();
+      });
+
+      btnTimerPause.addEventListener('click', () => {
+        activeTimer.isPaused = !activeTimer.isPaused;
+        btnTimerPause.textContent = activeTimer.isPaused ? 'המשך' : 'השהה';
+      });
+
+      btnTimerStop.addEventListener('click', () => {
+        stopExerciseTimer(false);
+      });
+
+      btnWaterPlus.addEventListener('click', () => {
+        addOneWaterCup();
+      });
+
+      btnWaterMinus.addEventListener('click', () => {
+        if (appState.waterCups > 0) {
+          appState.waterCups -= 1;
+          saveState();
+          renderWaterSection();
+        }
+      });
+
+      btnRefreshMeals.addEventListener('click', () => {
+        appState.mealSetIndex += 1;
+        saveState();
+        renderMealsSection();
+        showToast('רעננו עבורך רעיונות תזונה חדשים המותאמים למטרה!', 'success', 2600);
+      });
+
+      document.querySelectorAll('.btn-quick-q').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const topic = btn.getAttribute('data-topic');
+          coachAnswer.textContent = generateCoachResponse(topic);
+        });
+      });
+
+      coachCustomForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const text = coachCustomInput.value.trim();
+        if (!text) return;
+        coachAnswer.textContent = generateCoachResponse(text);
+        coachCustomInput.value = '';
+      });
+
+      // ==========================================
+      // אתחול ראשוני בעת טעינת הדף
+      // ==========================================
+      if (loadState()) {
+        renderDashboard();
+      }
+    })();
+  </script>
+</body>
+</html>
